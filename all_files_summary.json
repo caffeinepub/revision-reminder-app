@@ -1,0 +1,19 @@
+{
+  "backend/main.mo": "Motoko actor implementing a spaced-repetition backend with topic management, interval-based reminders (1-day, 3-day, 30-day, 3-month), and study progress logging. Exposes addTopic, getTopics, getDueReminders, markReminderDone, and getStudyProgress.",
+  "feature_evidence.json": "Feature evidence report mapping four product features (topic management, due reminders, study growth chart, visual theme) to their implementing source files, components, and test IDs.",
+  "frontend-file-summaries.txt": "JSON document containing one-line summaries for each frontend source file, describing their purpose and key implementation details.",
+  "frontend/index.css": "Base Tailwind CSS file defining OKLCH CSS custom properties for light and dark color themes including background, foreground, primary, accent, chart, and sidebar tokens.",
+  "frontend/index.html": "Minimal HTML entry point for the React app, mounting the root div and loading the main TypeScript module.",
+  "frontend/src/App.tsx": "Root React component composing the full app layout with a sticky header, hero banner image, TopicManager, DueReminders, StudyGrowthChart sections, and a branded footer.",
+  "frontend/src/components/DueReminders.tsx": "Card component that fetches and displays due revision reminders with interval badges and per-item 'Mark Revised' buttons, including loading skeletons and an empty state.",
+  "frontend/src/components/StudyGrowthChart.tsx": "Card component rendering a Recharts AreaChart of cumulative study revisions over time, with a stats summary row, custom tooltip, loading skeleton, and empty state.",
+  "frontend/src/components/TopicManager.tsx": "React component that displays a list of study topics and provides a form to add new ones, using query hooks for data fetching and mutation with loading/error states.",
+  "frontend/src/hooks/useActor.ts": "Custom hook that creates and caches an ICP backend actor (authenticated or anonymous) using React Query, and invalidates dependent queries whenever the actor changes.",
+  "frontend/src/hooks/useInternetIdentity.ts": "Provides an InternetIdentityProvider context and useInternetIdentity hook for managing ICP Internet Identity authentication, including login, logout, and identity persistence via AuthClient.",
+  "frontend/src/hooks/useQueries.ts": "Defines React Query hooks for fetching and mutating topics, due reminders, and study progress data against the ICP backend actor.",
+  "frontend/src/index.css": "Global CSS file that imports Google Fonts, sets up Tailwind directives, and defines light/dark mode CSS custom properties for the app's design tokens using OKLCH color values.",
+  "frontend/src/main.tsx": "Application entry point that renders the React app wrapped in QueryClientProvider and InternetIdentityProvider.",
+  "frontend/src/utils/chartHelpers.ts": "Utility functions for transforming raw study progress data (bigint nanosecond timestamps) into cumulative chart data points with formatted labels.",
+  "frontend/tailwind.config.js": "Tailwind CSS configuration extending the default theme with custom fonts, OKLCH-based color tokens, border radii, box shadows, and keyframe animations, with typography and container-queries plugins.",
+  "project_state.json": "Tracks the project state for a Revision Reminder App with spaced repetition scheduling, listing existing features, architectural notes, new feature requests, and image requirements at schema version 1.0.0."
+}

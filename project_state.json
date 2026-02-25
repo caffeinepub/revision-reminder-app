@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "A Revision Reminder App with spaced repetition scheduling and study growth tracking. Users can add topics, which get scheduled for review at 1-day, 3-day, 30-day, and 3-month intervals. The app tracks revision history and displays a cumulative study growth chart.",
+  "architectural_notes": [
+    "Spaced repetition intervals: 1-day, 3-day, 30-day, 3-month stored per topic",
+    "Study progress tracked as a list of (timestamp, count) tuples for cumulative charting"
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- A minimalist book-and-growth-chart illustration combining an open book with a small upward-trending line chart overlaid, warm cream and forest green tones (study-hero.dim_800x400.png)",
+  "existing_features": [
+    {
+      "id": "feature-build-a-frontend-page-that-allows-users-to-add-new-topics-via-a-text-input-and-submit-button-display-the-full-list-of-added-topics",
+      "title": "Build a frontend page that allows users to add new topics via a text input and submit button. Display the full list of added topics.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-frontend-section-that-displays-all-currently-due-reminders-topics-whose-scheduled-revision-interval-has-been-reached-each-due-reminder-shows-the-topic-name-and-interval-label-e-g-1-day-3-day-30-day-3-month-users-can-click-a-mark-as-revised-button-on-each-due-reminder-to-complete-it",
+      "title": "Build a frontend section that displays all currently due reminders (topics whose scheduled revision interval has been reached). Each due reminder shows the topic name and interval label (e.g., '1-day', '3-day', '30-day', '3-month'). Users can click a 'Mark as Revised' button on each due reminder to complete it.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-build-a-frontend-study-growth-chart-that-visualizes-cumulative-topics-revised-over-time-the-x-axis-represents-time-revision-session-timestamps-and-the-y-axis-represents-the-cumulative-total-number-of-topics-revised-use-a-line-chart-with-data-points-from-getstudyprogress",
+      "title": "Build a frontend study growth chart that visualizes cumulative topics revised over time. The X-axis represents time (revision session timestamps) and the Y-axis represents the cumulative total number of topics revised. Use a line chart with data points from getStudyProgress.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-clean-focused-study-app-visual-theme-use-a-warm-parchment-cream-background-with-deep-forest-green-and-amber-accent-colors-a-readable-serif-or-semi-serif-heading-font-paired-with-a-clean-sans-serif-body-font-and-a-calm-card-based-layout-with-subtle-shadows-apply-this-theme-consistently-across-all-pages-and-components",
+      "title": "Apply a clean, focused study-app visual theme: use a warm parchment/cream background with deep forest green and amber accent colors, a readable serif or semi-serif heading font paired with a clean sans-serif body font, and a calm card-based layout with subtle shadows. Apply this theme consistently across all pages and components.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Add topics to a revision list with spaced repetition reminders (1-day, 3-day, 30-day, 3-month)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Check and trigger due reminders periodically, marking them as completed",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Display a cumulative study growth chart showing total topics revised over time",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Create a backend data model and actor in Motoko that stores topics, their spaced repetition reminder schedules (1-day, 3-day, 30-day, 3-month intervals from creation time), and a study progress log (timestamp + count of topics revised). Expose the following API: addTopic(name: Text), getTopics(), getDueReminders(), markReminderDone(topicName: Text, interval: Text), getStudyProgress().",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Revision Reminder App",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

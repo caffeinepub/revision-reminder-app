@@ -1,0 +1,10 @@
+{
+  "frontend/src/index.css": "Global styles with warm parchment/cream OKLCH color system, forest green primary, amber accent, and Google Fonts import for Playfair Display (serif headings) and Inter (body).",
+  "frontend/tailwind.config.js": "Extended Tailwind config with custom font families (Playfair Display serif, Inter sans), card shadow tokens, and fade-in animation keyframes alongside the full OKLCH color system.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations: getTopics, addTopic, getDueReminders, markReminderDone, and getStudyProgress with proper cache invalidation.",
+  "frontend/src/utils/chartHelpers.ts": "Utility functions to convert nanosecond bigint timestamps to milliseconds, format date labels, and transform raw study progress tuples into cumulative chart data points.",
+  "frontend/src/components/TopicManager.tsx": "Card-based component for adding new topics via a text input form and displaying all existing topics as styled chips with interval badges; handles loading, error, and empty states.",
+  "frontend/src/components/DueReminders.tsx": "Card-based component displaying all currently due revision reminders with topic name and interval badge; includes per-item \"Mark Revised\" buttons with inline loading states and a friendly empty state.",
+  "frontend/src/components/StudyGrowthChart.tsx": "Card-based area chart component visualizing cumulative study revisions over time using Recharts, with stats summary row and a placeholder empty state when no data exists.",
+  "frontend/src/App.tsx": "Main app layout with a sticky header, hero banner using the generated study image, three main content sections (TopicManager, DueReminders, StudyGrowthChart), and a branded footer."
+}

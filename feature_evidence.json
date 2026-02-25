@@ -1,0 +1,86 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-build-a-frontend-page-that-allows-users-to-add-new-topics-via-a-text-input-and-submit-button-display-the-full-list-of-added-topics",
+      "featureTitle": "Build a frontend page that allows users to add new topics via a text input and submit button. Display the full list of added topics.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/TopicManager.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-a-frontend-section-that-displays-all-currently-due-reminders-topics-whose-scheduled-revision-interval-has-been-reached-each-due-reminder-shows-the-topic-name-and-interval-label-e-g-1-day-3-day-30-day-3-month-users-can-click-a-mark-as-revised-button-on-each-due-reminder-to-complete-it",
+      "featureTitle": "Build a frontend section that displays all currently due reminders (topics whose scheduled revision interval has been reached). Each due reminder shows the topic name and interval label (e.g., '1-day', '3-day', '30-day', '3-month'). Users can click a 'Mark as Revised' button on each due reminder to complete it.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/DueReminders.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-build-a-frontend-study-growth-chart-that-visualizes-cumulative-topics-revised-over-time-the-x-axis-represents-time-revision-session-timestamps-and-the-y-axis-represents-the-cumulative-total-number-of-topics-revised-use-a-line-chart-with-data-points-from-getstudyprogress",
+      "featureTitle": "Build a frontend study growth chart that visualizes cumulative topics revised over time. The X-axis represents time (revision session timestamps) and the Y-axis represents the cumulative total number of topics revised. Use a line chart with data points from getStudyProgress.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/StudyGrowthChart.tsx",
+        "frontend/src/utils/chartHelpers.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-clean-focused-study-app-visual-theme-use-a-warm-parchment-cream-background-with-deep-forest-green-and-amber-accent-colors-a-readable-serif-or-semi-serif-heading-font-paired-with-a-clean-sans-serif-body-font-and-a-calm-card-based-layout-with-subtle-shadows-apply-this-theme-consistently-across-all-pages-and-components",
+      "featureTitle": "Apply a clean, focused study-app visual theme: use a warm parchment/cream background with deep forest green and amber accent colors, a readable serif or semi-serif heading font paired with a clean sans-serif body font, and a calm card-based layout with subtle shadows. Apply this theme consistently across all pages and components.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/DueReminders.tsx",
+        "frontend/src/components/StudyGrowthChart.tsx",
+        "frontend/src/components/TopicManager.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
