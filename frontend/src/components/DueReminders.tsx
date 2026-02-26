@@ -1,16 +1,33 @@
 import { useState } from 'react';
-import { Bell, CheckCircle2, RefreshCw, Loader2, Clock } from 'lucide-react';
+import { Bell, CheckCircle2, RefreshCw, Loader2, Clock, CalendarClock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetDueReminders, useMarkReminderDone } from '@/hooks/useQueries';
+import { INTERVAL_DISPLAY } from '@/utils/dateHelpers';
 
-const INTERVAL_LABELS: Record<string, { label: string; color: string }> = {
-  '1-day': { label: '1 Day', color: 'bg-accent/20 text-accent-foreground border-accent/40' },
-  '3-day': { label: '3 Days', color: 'bg-primary/10 text-primary border-primary/30' },
-  '30-day': { label: '30 Days', color: 'bg-secondary text-secondary-foreground border-border' },
-  '3-month': { label: '3 Months', color: 'bg-muted text-muted-foreground border-border' },
+const INTERVAL_COLORS: Record<string, string> = {
+  '1-day': 'bg-amber-50 text-amber-800 border-amber-300 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-700',
+  '3-day': 'bg-orange-50 text-orange-800 border-orange-300 dark:bg-orange-900/20 dark:text-orange-300 dark:border-orange-700',
+  '7-day': 'bg-primary/10 text-primary border-primary/30',
+  '1-month': 'bg-secondary text-secondary-foreground border-border',
+  '3-month': 'bg-muted text-muted-foreground border-border',
 };
+
+const INTERVAL_ORDER = ['1-day', '3-day', '7-day', '1-month', '3-month'];
+
+function getIntervalColor(interval: string): string {
+  return INTERVAL_COLORS[interval] ?? 'bg-muted text-muted-foreground border-border';
+}
+
+function getIntervalLabel(interval: string): string {
+  return INTERVAL_DISPLAY[interval]?.label ?? interval;
+}
+
+function getIntervalSortIndex(interval: string): number {
+  const idx = INTERVAL_ORDER.indexOf(interval);
+  return idx === -1 ? 99 : idx;
+}
 
 export function DueReminders() {
   const { data: reminders = [], isLoading, refetch, isFetching } = useGetDueReminders();
@@ -27,9 +44,10 @@ export function DueReminders() {
     }
   };
 
-  const getIntervalInfo = (interval: string) => {
-    return INTERVAL_LABELS[interval] ?? { label: interval, color: 'bg-muted text-muted-foreground border-border' };
-  };
+  // Sort reminders by interval order for consistent display
+  const sortedReminders = [...reminders].sort(
+    (a, b) => getIntervalSortIndex(a[1]) - getIntervalSortIndex(b[1])
+  );
 
   return (
     <section className="bg-card rounded-xl shadow-card p-6 md:p-8 animate-fade-in">
@@ -60,10 +78,10 @@ export function DueReminders() {
       {isLoading ? (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-16 w-full rounded-lg" />
+            <Skeleton key={i} className="h-20 w-full rounded-lg" />
           ))}
         </div>
-      ) : reminders.length === 0 ? (
+      ) : sortedReminders.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
             <CheckCircle2 className="w-7 h-7 text-primary" />
@@ -76,12 +94,14 @@ export function DueReminders() {
       ) : (
         <div className="space-y-3">
           <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-4">
-            {reminders.length} reminder{reminders.length !== 1 ? 's' : ''} due
+            {sortedReminders.length} reminder{sortedReminders.length !== 1 ? 's' : ''} due
           </p>
-          {reminders.map(([topicName, interval]) => {
+          {sortedReminders.map(([topicName, interval]) => {
             const key = `${topicName}::${interval}`;
             const isMarking = markingKey === key;
-            const intervalInfo = getIntervalInfo(interval);
+            const intervalColor = getIntervalColor(interval);
+            const intervalLabel = getIntervalLabel(interval);
+            const description = INTERVAL_DISPLAY[interval]?.description ?? `${interval} review`;
 
             return (
               <div
@@ -90,16 +110,22 @@ export function DueReminders() {
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="flex items-center justify-center w-8 h-8 rounded-md bg-accent/15 shrink-0">
-                    <Clock className="w-4 h-4 text-accent-foreground" />
+                    <CalendarClock className="w-4 h-4 text-accent-foreground" />
                   </div>
                   <div className="min-w-0">
                     <p className="font-sans font-medium text-foreground text-sm truncate">{topicName}</p>
-                    <Badge
-                      variant="outline"
-                      className={`text-xs mt-0.5 font-sans ${intervalInfo.color}`}
-                    >
-                      {intervalInfo.label} review
-                    </Badge>
+                    <div className="flex items-center gap-2 mt-1 flex-wrap">
+                      <Badge
+                        variant="outline"
+                        className={`text-xs font-sans font-semibold ${intervalColor}`}
+                      >
+                        {intervalLabel}
+                      </Badge>
+                      <span className="flex items-center gap-1 text-xs text-muted-foreground font-sans">
+                        <Clock className="w-3 h-3" />
+                        {description} — <span className="text-destructive font-medium">Due now</span>
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <Button

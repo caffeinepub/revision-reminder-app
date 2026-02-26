@@ -1,58 +1,47 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-25T01:04:56.880Z",
-  "summary": "The diff implements all five requirements comprehensively. The backend Motoko actor (REQ-1), frontend topic management (REQ-2), due reminders section (REQ-3), study growth chart (REQ-4), and visual theme (REQ-5) are all present. One notable issue: the backend's markReminderDone re-adds a reminder with a fresh timestamp rather than simply removing it. The required hero image is referenced in App.tsx but not included in the diff as an added file. The data model uses var variables but not stable variables, which may violate the persistence constraint.",
+  "generatedAt": "2026-02-25T01:12:46.267Z",
+  "summary": "The diff implements the core requirements for REQ-6, REQ-7, and REQ-8. The backend is updated to use the five new intervals, a migration module is added, and frontend utilities/components are updated. However, REQ-7 and REQ-8 have partial gaps: the DueReminders component shows interval badges and descriptions but the truncated diff suggests it shows 'Due now' rather than a true relative due date. The TopicManager shows interval labels but does not show formatted scheduled due dates per topic. The dateHelpers utility provides the necessary helpers but they may not be wired up fully in the components.",
   "missing_requirements": [
     {
-      "requirement": "Persist all data in stable Motoko variables",
-      "reason": "The backend/main.mo uses plain var topics, var reminders, and var studyLogs instead of stable var declarations. Without stable, data will be lost on canister upgrades, violating the constraint that all data must be persisted in stable Motoko variables.",
+      "id": "REQ-7",
+      "requirement": "Each due reminder card shows a human-readable due date or relative time string (e.g., 'Due today', 'Overdue by 1 day', 'Due in 3 days') computed from the actual reminder timestamp.",
+      "reason": "The frontend-file-summaries.txt describes DueReminders as showing a 'Due now' indicator rather than a computed relative time string like 'Due in 3 days' or 'Overdue by 1 day'. The getRelativeDueLabel and computeDueDate helpers exist in dateHelpers.ts but the component summary does not confirm they are used to display dynamic relative dates based on actual timestamps.",
       "evidence": [
-        "backend/main.mo"
+        "frontend-file-summaries.txt",
+        "frontend/src/components/DueReminders.tsx",
+        "frontend/src/utils/dateHelpers.ts"
       ]
     },
     {
-      "requirement": "A minimalist book-and-growth-chart illustration (study-hero.dim_800x400.png) must be generated and present as an image asset",
-      "reason": "The image is referenced in App.tsx at /assets/generated/study-hero.dim_800x400.png but no such image file appears in the diff's added files list.",
+      "id": "REQ-8",
+      "requirement": "Scheduled revision dates are displayed in a readable format (e.g., 'Jan 15, 2025') wherever intervals are shown in the TopicManager.",
+      "reason": "The TopicManager component shows interval labels and descriptions but does not display computed formatted dates like 'Jan 15, 2025' per interval per topic. The formatReadableDate and computeDueDate helpers exist in dateHelpers.ts but are not referenced in TopicManager.tsx according to the visible diff.",
       "evidence": [
-        "frontend/src/App.tsx"
+        "frontend/src/components/TopicManager.tsx",
+        "frontend-file-summaries.txt",
+        "frontend/src/utils/dateHelpers.ts"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "markReminderDone re-adds the reminder with a fresh timestamp after marking it done, effectively rescheduling it for the same interval again",
-      "reason": "The build request only asks to mark the specified interval as completed and log the event. Re-inserting the reminder with a new timestamp creates unintended re-scheduling behavior that was not requested.",
+      "description": "A migration module (backend/migration.mo) is added to handle data migration from the old '30-day' interval to '1-month'.",
+      "reason": "The build request does not mention creating a migration module or any data migration logic. The requirements only ask to update backend/main.mo interval labels and scheduling logic.",
       "evidence": [
-        "backend/main.mo"
-      ]
-    },
-    {
-      "description": "Automatic 60-second polling for due reminders via refetchInterval",
-      "reason": "The build request non-goals explicitly state no automatic background polling daemon and that user-triggered refresh is sufficient. A manual refresh button is present but the automatic 60-second interval polling was not requested.",
-      "evidence": [
-        "frontend/src/hooks/useQueries.ts"
+        "backend/migration.mo"
       ]
     }
   ],
-  "confidence": 0.82,
+  "confidence": 0.72,
   "changed_files": [
-    "all_files_summary.json",
     "backend/main.mo",
+    "backend/migration.mo",
     "frontend-file-summaries.txt",
-    "frontend/index.css",
-    "frontend/index.html",
-    "frontend/src/App.tsx",
     "frontend/src/components/DueReminders.tsx",
-    "frontend/src/components/StudyGrowthChart.tsx",
     "frontend/src/components/TopicManager.tsx",
-    "frontend/src/hooks/useActor.ts",
-    "frontend/src/hooks/useInternetIdentity.ts",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/index.css",
-    "frontend/src/main.tsx",
-    "frontend/src/utils/chartHelpers.ts",
-    "frontend/tailwind.config.js",
+    "frontend/src/utils/dateHelpers.ts",
     "project_state.json"
   ]
 }

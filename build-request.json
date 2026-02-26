@@ -1,124 +1,78 @@
 {
   "kind": "build_request",
-  "title": "Revision Reminder App with Spaced Repetition & Study Growth Tracking",
+  "title": "Show interval due dates on reminders (1-day, 3-day, 7-day, 1-month, 3-month)",
   "projectName": "Revision Reminder",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-1",
-      "text": "Create a backend data model and actor in Motoko that stores topics, their spaced repetition reminder schedules (1-day, 3-day, 30-day, 3-month intervals from creation time), and a study progress log (timestamp + count of topics revised). Expose the following API: addTopic(name: Text), getTopics(), getDueReminders(), markReminderDone(topicName: Text, interval: Text), getStudyProgress().",
+      "id": "REQ-6",
+      "text": "Update the backend spaced repetition intervals from the current set (1-day, 3-day, 30-day, 3-month) to (1-day, 3-day, 7-day, 1-month, 3-month). Update all interval label strings, scheduling logic, and any hardcoded interval arrays in backend/main.mo to reflect the five intervals: '1-day', '3-day', '7-day', '1-month', '3-month'.",
       "target": "backend",
       "source": {
         "messageIds": [
-          "msg-2"
+          "msg-7"
         ],
         "quotes": [
-          "reminders[topic_name] = { \"1_day\": ..., \"3_day\": ..., \"30_day\": ..., \"3_month\": ... }",
-          "study_progress.append((current_time(), revised_this_time))"
+          "fix it to eg ,1,3,7 ,month ,three month"
         ]
       },
       "acceptanceCriteria": [
-        "addTopic stores a topic with reminder timestamps for 1-day, 3-day, 30-day, and 3-month from the time of creation.",
-        "getDueReminders returns all reminders whose scheduled time has passed and have not yet been marked done.",
-        "markReminderDone marks the specified interval for the given topic as completed and records the revision event in the study progress log.",
-        "getStudyProgress returns a list of (timestamp, count) entries representing each revision session."
+        "When a topic is added, exactly five reminder entries are created with intervals: 1-day, 3-day, 7-day, 1-month, 3-month.",
+        "getDueReminders returns reminders with interval labels '1-day', '3-day', '7-day', '1-month', '3-month'.",
+        "markReminderDone accepts '7-day' and '1-month' as valid interval values.",
+        "The old '30-day' interval label is no longer used anywhere in the backend."
       ]
     },
     {
-      "id": "REQ-2",
-      "text": "Build a frontend page that allows users to add new topics via a text input and submit button. Display the full list of added topics.",
+      "id": "REQ-7",
+      "text": "Update the DueReminders frontend component to display the due date (or time remaining) alongside each reminder's interval badge. For each due reminder item, show a human-readable label indicating when it is due (e.g., 'Due today', 'Due in 2 days', 'Overdue by 1 day'). Also update the interval badge labels to match the new set: '1-day', '3-day', '7-day', '1-month', '3-month'.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-2"
+          "msg-7"
         ],
         "quotes": [
-          "def add_topic(topic_name):",
-          "add_topic(\"Monetary Policy\")",
-          "add_topic(\"Indian Banking\")"
+          "show four intervals but not showing when they are",
+          "fix it to eg ,1,3,7 ,month ,three month"
         ]
       },
       "acceptanceCriteria": [
-        "User can type a topic name and click 'Add Topic' to submit.",
-        "The list of all added topics is displayed on the page.",
-        "Input field is cleared after a topic is successfully added."
+        "Each due reminder card shows the interval label (e.g., '7-day', '1-month') as a badge.",
+        "Each due reminder card shows a human-readable due date or relative time string (e.g., 'Due today', 'Overdue by 1 day', 'Due in 3 days').",
+        "The five intervals '1-day', '3-day', '7-day', '1-month', '3-month' are all represented correctly in the UI.",
+        "The old '30-day' label no longer appears anywhere in the frontend."
       ]
     },
     {
-      "id": "REQ-3",
-      "text": "Build a frontend section that displays all currently due reminders (topics whose scheduled revision interval has been reached). Each due reminder shows the topic name and interval label (e.g., '1-day', '3-day', '30-day', '3-month'). Users can click a 'Mark as Revised' button on each due reminder to complete it.",
+      "id": "REQ-8",
+      "text": "Update the TopicManager component and any other frontend section that lists or references reminder intervals to display all five intervals (1-day, 3-day, 7-day, 1-month, 3-month) with their scheduled due dates visible. If the topic list shows upcoming reminder dates per topic, ensure all five interval entries are rendered with a formatted date string.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-2"
+          "msg-7"
         ],
         "quotes": [
-          "🔔 Time to revise: {topic} ({key})",
-          "times[key] = None",
-          "revised_this_time += 1"
+          "show four intervals but not showing when they are"
         ]
       },
       "acceptanceCriteria": [
-        "Due reminders are fetched and displayed when the page loads and can be refreshed.",
-        "Each reminder card shows the topic name and interval label.",
-        "Clicking 'Mark as Revised' calls markReminderDone and removes the reminder from the due list.",
-        "If no reminders are due, a friendly empty-state message is shown."
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Build a frontend study growth chart that visualizes cumulative topics revised over time. The X-axis represents time (revision session timestamps) and the Y-axis represents the cumulative total number of topics revised. Use a line chart with data points from getStudyProgress.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ],
-        "quotes": [
-          "def show_growth_chart():",
-          "total_revised += count",
-          "print(f\"Time {timestamp}: Total revised = {total_revised}\")"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A line chart is displayed showing cumulative topics revised over time.",
-        "Chart data is sourced from the getStudyProgress backend call.",
-        "Chart updates after a reminder is marked as revised.",
-        "If no progress exists yet, a placeholder message is shown instead of an empty chart."
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "text": "Apply a clean, focused study-app visual theme: use a warm parchment/cream background with deep forest green and amber accent colors, a readable serif or semi-serif heading font paired with a clean sans-serif body font, and a calm card-based layout with subtle shadows. Apply this theme consistently across all pages and components.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-2"
-        ]
-      },
-      "acceptanceCriteria": [
-        "All pages use the defined color palette (cream/parchment background, forest green and amber accents).",
-        "Headings use a distinct serif or semi-serif font; body text uses a clean sans-serif.",
-        "Content is organized in card-based sections with consistent spacing and subtle shadows.",
-        "Theme is applied consistently — no mismatched colors or fonts across sections."
+        "Any place in the UI that lists intervals shows all five: 1-day, 3-day, 7-day, 1-month, 3-month.",
+        "Scheduled revision dates are displayed in a readable format (e.g., 'Jan 15, 2025') wherever intervals are shown.",
+        "No references to the old '30-day' interval remain in the frontend."
       ]
     }
   ],
   "constraints": [
-    "All backend logic must live in a single Motoko actor in backend/main.mo.",
-    "Do not use any external database; persist all data in stable Motoko variables.",
-    "Do not use real-time WebSockets; polling or manual refresh is acceptable for due reminders.",
-    "Do not modify any files listed in frontend.immutablePaths."
+    "Do not change the backend API surface (addTopic, getTopics, getDueReminders, markReminderDone, getStudyProgress remain as-is).",
+    "Do not modify files under frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui."
   ],
   "nonGoals": [
-    "Push notifications or email/SMS reminders.",
-    "User authentication or multi-user support.",
-    "Mobile app or native app version.",
-    "Automatic background polling daemon (user-triggered refresh is sufficient)."
+    "Adding new reminder intervals beyond the five specified (1-day, 3-day, 7-day, 1-month, 3-month).",
+    "Changing the overall visual theme or layout beyond what is needed to display due date information.",
+    "Adding real-time push notifications or email reminders."
   ],
   "imageRequirements": {
-    "required": [
-      "A minimalist book-and-growth-chart illustration combining an open book with a small upward-trending line chart overlaid, warm cream and forest green tones (study-hero.dim_800x400.png)"
-    ],
+    "required": [],
     "edits": []
   }
 }

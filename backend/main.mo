@@ -2,7 +2,9 @@ import Array "mo:core/Array";
 import Iter "mo:core/Iter";
 import Runtime "mo:core/Runtime";
 import Time "mo:core/Time";
+import Migration "migration";
 
+(with migration = Migration.run)
 actor {
   type ReminderInterval = {
     intervalLabel : Text;
@@ -12,7 +14,8 @@ actor {
   let intervals : [ReminderInterval] = [
     { intervalLabel = "1-day"; days = 1 },
     { intervalLabel = "3-day"; days = 3 },
-    { intervalLabel = "30-day"; days = 30 },
+    { intervalLabel = "7-day"; days = 7 },
+    { intervalLabel = "1-month"; days = 30 },
     { intervalLabel = "3-month"; days = 90 },
   ];
 

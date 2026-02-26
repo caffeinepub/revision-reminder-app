@@ -1,14 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Build a Revision Reminder app with spaced repetition scheduling, due reminder tracking, and a study growth chart, styled as a calm study-focused UI.
+**Goal:** Update spaced repetition intervals to 1-day, 3-day, 7-day, 1-month, 3-month and display due dates alongside each reminder in the UI.
 
 **Planned changes:**
-- Add a Motoko backend actor that stores topics with spaced repetition reminder schedules (1-day, 3-day, 30-day, 3-month intervals), tracks due/completed reminders, and logs revision sessions with timestamps and counts
-- Expose backend API: `addTopic`, `getTopics`, `getDueReminders`, `markReminderDone`, `getStudyProgress`
-- Build a topic management section with a text input and "Add Topic" button, displaying all added topics in a list
-- Build a due reminders section showing each overdue topic and its interval label, with a "Mark as Revised" button per reminder and an empty-state message when none are due
-- Build a cumulative study growth line chart sourced from `getStudyProgress`, updating after each revision, with a placeholder when no data exists
-- Apply a warm parchment/cream background theme with forest green and amber accents, serif headings, sans-serif body text, and card-based layout with subtle shadows throughout
+- Update backend interval set from (1-day, 3-day, 30-day, 3-month) to (1-day, 3-day, 7-day, 1-month, 3-month), including all scheduling logic and label strings in `backend/main.mo`
+- Update the DueReminders frontend component to show the new interval badges and a human-readable due date/time label per reminder (e.g., "Due today", "Overdue by 1 day", "Due in 3 days")
+- Update the TopicManager component and any other frontend sections that list intervals to show all five intervals with their formatted scheduled due dates
+- Remove all references to the old "30-day" interval from both backend and frontend
 
-**User-visible outcome:** Users can add study topics, see which ones are due for revision based on spaced repetition intervals, mark them as revised, and track their cumulative study progress on a line chart — all in a calm, readable study-app interface.
+**User-visible outcome:** Users see five reminder intervals (1-day, 3-day, 7-day, 1-month, 3-month) throughout the app, and each reminder card clearly shows when it is due or how overdue it is.

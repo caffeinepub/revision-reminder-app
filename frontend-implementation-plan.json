@@ -1,132 +1,43 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Revision Reminder App with Spaced Repetition & Study Growth Tracking",
+  "title": "Show interval due dates on reminders (1-day, 3-day, 7-day, 1-month, 3-month)",
   "requirements": [
     {
-      "id": "REQ-2",
-      "summary": "Build a topic management section allowing users to add new topics and view the complete list of added topics",
+      "id": "REQ-7",
+      "summary": "Update DueReminders component to display due dates and new interval labels (1-day, 3-day, 7-day, 1-month, 3-month)",
       "acceptanceCriteria": [
-        "User can type a topic name and click 'Add Topic' to submit.",
-        "The list of all added topics is displayed on the page.",
-        "Input field is cleared after a topic is successfully added."
+        "Each due reminder card shows the interval label (e.g., '7-day', '1-month') as a badge.",
+        "Each due reminder card shows a human-readable due date or relative time string (e.g., 'Due today', 'Overdue by 1 day', 'Due in 3 days').",
+        "The five intervals '1-day', '3-day', '7-day', '1-month', '3-month' are all represented correctly in the UI.",
+        "The old '30-day' label no longer appears anywhere in the frontend."
       ],
       "file_operations": [
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Import and integrate the TopicManager component into the main app layout. Position it as the first major section after the hero/header area."
-        },
-        {
-          "path": "frontend/src/components/TopicManager.tsx",
-          "operation": "create",
-          "description": "Create a component that renders a text input field and 'Add Topic' button. On submit, call backend.addTopic() with the topic name, then refresh the topic list by calling backend.getTopics(). Display all topics in a card-based list below the input. Clear the input field after successful submission. Handle loading and error states gracefully."
-        },
-        {
-          "path": "frontend/src/hooks/useTopics.ts",
-          "operation": "create",
-          "description": "Create a custom hook that manages topic state. Provide methods to fetch all topics (getTopics), add a new topic (addTopic), and track loading/error states. Return the topics array and handler functions for use in TopicManager."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "Build a due reminders section displaying all currently due revision intervals with the ability to mark each as revised",
-      "acceptanceCriteria": [
-        "Due reminders are fetched and displayed when the page loads and can be refreshed.",
-        "Each reminder card shows the topic name and interval label.",
-        "Clicking 'Mark as Revised' calls markReminderDone and removes the reminder from the due list.",
-        "If no reminders are due, a friendly empty-state message is shown."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Import and integrate the DueReminders component into the main app layout. Position it below the TopicManager section and above the study growth chart."
-        },
-        {
-          "path": "frontend/src/components/DueReminders.tsx",
-          "operation": "create",
-          "description": "Create a component that fetches and displays due reminders from backend.getDueReminders(). Render each reminder as a card showing the topic name and interval label (e.g., '1-day', '3-day', '30-day', '3-month'). Include a 'Mark as Revised' button on each card that calls backend.markReminderDone() with the topic name and interval, then refreshes the reminder list. Show a friendly empty-state message when no reminders are due. Include a manual refresh button."
-        },
-        {
-          "path": "frontend/src/hooks/useDueReminders.ts",
-          "operation": "create",
-          "description": "Create a custom hook that manages due reminders state. Provide methods to fetch due reminders (getDueReminders), mark a reminder as done (markReminderDone), and manually refresh the list. Track loading and error states. Return the reminders array and handler functions."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Build a study growth chart visualizing cumulative topics revised over time using a line chart",
-      "acceptanceCriteria": [
-        "A line chart is displayed showing cumulative topics revised over time.",
-        "Chart data is sourced from the getStudyProgress backend call.",
-        "Chart updates after a reminder is marked as revised.",
-        "If no progress exists yet, a placeholder message is shown instead of an empty chart."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Import and integrate the StudyGrowthChart component into the main app layout. Position it below the DueReminders section as the final visualization element."
-        },
-        {
-          "path": "frontend/src/components/StudyGrowthChart.tsx",
-          "operation": "create",
-          "description": "Create a component that fetches study progress data from backend.getStudyProgress() and renders it as a line chart. Transform the raw progress data into cumulative totals for the Y-axis, with timestamps on the X-axis. Use a charting library (recharts is available via shadcn/ui ecosystem) to render the line chart. Show a placeholder message if no progress data exists yet. Include a refresh mechanism to update the chart after reminders are marked as revised."
-        },
-        {
-          "path": "frontend/src/hooks/useStudyProgress.ts",
-          "operation": "create",
-          "description": "Create a custom hook that manages study progress state. Fetch progress data from backend.getStudyProgress(), transform it into cumulative totals, and provide a refresh method. Track loading and error states. Return the formatted chart data and handler functions."
-        },
-        {
-          "path": "frontend/src/utils/chartHelpers.ts",
-          "operation": "create",
-          "description": "Create utility functions to transform raw study progress data (array of [Time, bigint] tuples) into cumulative chart data. Handle Time (bigint nanoseconds) conversion to human-readable dates/labels for the X-axis. Calculate cumulative totals for the Y-axis."
-        }
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "summary": "Apply a warm, focused study-app visual theme with parchment background, forest green and amber accents, serif headings, and card-based layout across all pages and components",
-      "acceptanceCriteria": [
-        "All pages use the defined color palette (cream/parchment background, forest green and amber accents).",
-        "Headings use a distinct serif or semi-serif font; body text uses a clean sans-serif.",
-        "Content is organized in card-based sections with consistent spacing and subtle shadows.",
-        "Theme is applied consistently — no mismatched colors or fonts across sections."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/tailwind.config.js",
-          "operation": "modify",
-          "description": "Extend the Tailwind theme to include custom colors (parchment/cream background, forest green primary, amber accent) and custom font families (serif/semi-serif for headings, sans-serif for body). Define these as theme extensions so they can be used consistently across all components."
-        },
-        {
-          "path": "frontend/src/index.css",
-          "operation": "modify",
-          "description": "Apply global styles for the study-app theme. Set the body background to the warm parchment/cream color. Define CSS custom properties for the color palette if needed for non-Tailwind usage. Import and configure the chosen serif/semi-serif font for headings and sans-serif for body text (using @font-face or Google Fonts if necessary)."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Wrap all sections in a consistent layout structure using the card-based design system. Apply the parchment background to the page container, use forest green and amber for headings and accents, and ensure all content sections have subtle shadows and consistent spacing. Add a header/hero section that uses the generated study-hero image (frontend/public/assets/generated/study-hero.dim_800x400.png) as a visual anchor."
-        },
-        {
-          "path": "frontend/src/components/TopicManager.tsx",
-          "operation": "modify",
-          "description": "Apply the study-app theme to the TopicManager component. Use card-based layout with subtle shadows, forest green for primary actions (Add Topic button), amber for secondary accents, and serif headings. Ensure consistent spacing and padding."
-        },
         {
           "path": "frontend/src/components/DueReminders.tsx",
           "operation": "modify",
-          "description": "Apply the study-app theme to the DueReminders component. Use card-based layout for each reminder with subtle shadows, forest green for the 'Mark as Revised' button, serif headings for section titles, and consistent spacing. Style the empty-state message to match the theme."
+          "description": "Update the component to display human-readable due dates alongside each reminder's interval badge. Add logic to calculate and format relative time strings (e.g., 'Due today', 'Due in 2 days', 'Overdue by 1 day') based on the dueDate timestamp. Update interval badge labels to display the new five-interval set: '1-day', '3-day', '7-day', '1-month', '3-month'. Remove any references to the old '30-day' interval."
         },
         {
-          "path": "frontend/src/components/StudyGrowthChart.tsx",
+          "path": "frontend/src/utils/dateHelpers.ts",
+          "operation": "create",
+          "description": "Create utility functions for formatting due dates and calculating relative time strings. Include a function to convert bigint nanosecond timestamps to Date objects, a function to generate human-readable relative time labels (e.g., 'Due today', 'Due in X days', 'Overdue by X days'), and a function to format dates as readable strings (e.g., 'Jan 15, 2025')."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Update TopicManager component to display all five intervals with scheduled due dates",
+      "acceptanceCriteria": [
+        "Any place in the UI that lists intervals shows all five: 1-day, 3-day, 7-day, 1-month, 3-month.",
+        "Scheduled revision dates are displayed in a readable format (e.g., 'Jan 15, 2025') wherever intervals are shown.",
+        "No references to the old '30-day' interval remain in the frontend."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/TopicManager.tsx",
           "operation": "modify",
-          "description": "Apply the study-app theme to the StudyGrowthChart component. Use a card container with subtle shadow, forest green for the chart line/data points, amber for highlights, and serif headings. Ensure the chart itself uses the theme colors for axes and labels. Style the placeholder message to match the theme."
+          "description": "Update the component to display all five reminder intervals (1-day, 3-day, 7-day, 1-month, 3-month) with their scheduled due dates for each topic. If the component currently shows a topic list, add a section or expandable detail view that renders all five intervals with formatted due date strings. Use the dateHelpers utility to format dates. Remove any references to the old '30-day' interval label."
         }
       ]
     }
